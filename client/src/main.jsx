@@ -8,6 +8,7 @@ import { MantineProvider } from "@mantine/core";
 
 // core styles are required for all packages
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
