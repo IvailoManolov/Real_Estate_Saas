@@ -27,9 +27,10 @@ const Layout = () => {
                     scope: "openid profile email",
                 },
             });
-            console.log(res);
 
             localStorage.setItem("access_token", res);
+            setUserDetails((prev) => ({ ...prev, token: res }));
+            mutate(res);
         }
 
         isAuthenticated && getTokenAndRegister();
