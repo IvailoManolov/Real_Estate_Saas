@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import "./Property.css";
 
@@ -15,6 +15,8 @@ import useAuthCheck from '../../hooks/useAuthCheck';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import BookingModal from '../../components/BookingModal/BookingModal';
+import UserDetailContext from '../../context/UserDetailContext';
+import { Button } from '@mantine/core';
 
 
 const Property = () => {
@@ -26,6 +28,9 @@ const Property = () => {
     const [modalOpened, setModalOpened] = useState(false);
     const { validateLogin } = useAuthCheck();
     const { user } = useAuth0();
+
+    const { userDetails: { token, bookings }, setUserDetails } = useContext(UserDetailContext);
+
 
     if (isLoading) {
         return (
@@ -121,13 +126,27 @@ const Property = () => {
                         </div>
 
                         {/* Booking Button */}
-                        <button
-                            className="button"
-                            onClick={() => {
-                                validateLogin() && setModalOpened(true)
-                            }}>
-                            Book your visit!
-                        </button>
+                        {
+                            bookings?.map((booking) => booking.id).includes(id) ?
+                                (
+                                    <>
+                                        <Button variant='outline' w={'100%'} color='red'>
+                                            <span>Cancel booking</span>
+                                        </Button>
+                                    </>
+                                ) :
+                                (
+                                    <>
+                                        <button className='button'
+                                            onClick={() => {
+                                                validateLogin() && setModalOpened(true);
+                                            }}
+                                        >
+                                            Book your visit
+                                        </button>
+                                    </>
+                                )
+                        }
 
                         <BookingModal
                             opened={modalOpened}
@@ -148,7 +167,7 @@ const Property = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
