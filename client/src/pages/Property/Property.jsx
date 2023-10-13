@@ -2,9 +2,11 @@ import React, { useContext, useState } from 'react';
 
 import "./Property.css";
 
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useLocation } from 'react-router-dom';
 import { getProperty } from '../../utils/api';
+
+import { removeBooking } from '../../utils/api';
 import { PuffLoader } from 'react-spinners';
 import { AiFillHeart, AiFillCar } from 'react-icons/ai';
 
@@ -17,6 +19,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import BookingModal from '../../components/BookingModal/BookingModal';
 import UserDetailContext from '../../context/UserDetailContext';
 import { Button } from '@mantine/core';
+import { toast } from 'react-toastify';
 
 
 const Property = () => {
@@ -30,6 +33,17 @@ const Property = () => {
     const { user } = useAuth0();
 
     const { userDetails: { token, bookings }, setUserDetails } = useContext(UserDetailContext);
+
+    const { mutate: cancelBooking, isLoading: cancelling } = useMutation({
+        mutationFn: () => removeBooking(id, user?.email, token),
+        onSuccess: () => {
+            setUserDetails((prev) => ({
+                ...prev,
+                bookings: prev.bookings.filter((booking) => booking?.id !== id)
+            }));
+            toast.success('Booking cancelled', { position: 'top-right' });
+        }
+    });
 
 
     if (isLoading) {
@@ -130,9 +144,12 @@ const Property = () => {
                             bookings?.map((booking) => booking.id).includes(id) ?
                                 (
                                     <>
-                                        <Button variant='outline' w={'100%'} color='red'>
+                                        <Button onClick={() => cancelBooking()} variant='outline' w={'100%'} color='red' disabled={cancelling}>
                                             <span>Cancel booking</span>
                                         </Button>
+                                        <span>
+                                            Your visit already booked for {bookings?.filter((booking) => booking?.id === id)[0].date}
+                                        </span>
                                     </>
                                 ) :
                                 (
