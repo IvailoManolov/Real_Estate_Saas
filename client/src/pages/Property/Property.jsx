@@ -20,6 +20,7 @@ import BookingModal from '../../components/BookingModal/BookingModal';
 import UserDetailContext from '../../context/UserDetailContext';
 import { Button } from '@mantine/core';
 import { toast } from 'react-toastify';
+import Heart from '../../components/Heart/Heart';
 
 
 const Property = () => {
@@ -72,7 +73,7 @@ const Property = () => {
 
                 {/* Like Button */}
                 <div className="like">
-                    <AiFillHeart size={30} color='white' />
+                    <Heart id={id} />
                 </div>
 
                 {/* Image */}
