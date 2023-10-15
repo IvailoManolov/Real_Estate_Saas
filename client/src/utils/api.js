@@ -138,3 +138,28 @@ export const getAllFavorites = async (email, token) => {
         throw err;
     }
 }
+
+export const getAllBookings = async (email, token) => {
+    if (!token) {
+        return
+    }
+
+    try {
+
+        const response = await api.post(`/user/allBookings`,
+            {
+                email,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+        return response.data['bookedVisit']
+
+    } catch (err) {
+        toast.error("Something went wrong while fetching bookings!");
+        throw err;
+    }
+}

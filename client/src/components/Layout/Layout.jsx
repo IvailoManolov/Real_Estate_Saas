@@ -7,6 +7,7 @@ import UserDetailContext from '../../context/UserDetailContext'
 import { useMutation } from 'react-query'
 import { createUser } from '../../utils/api'
 import useFavorites from '../../hooks/useFavorites'
+import useBookings from '../../hooks/useBookings'
 
 const Layout = () => {
 
@@ -14,6 +15,7 @@ const Layout = () => {
     const { setUserDetails } = useContext(UserDetailContext);
 
     useFavorites();
+    useBookings();
 
     const { mutate } = useMutation({
         mutationKey: [user?.email],
