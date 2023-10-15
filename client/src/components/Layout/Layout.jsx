@@ -1,16 +1,19 @@
 import React, { useContext, useEffect } from 'react'
 import Footer from '../Footer/Footer'
 import Header from '../Header/Header'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useFormAction } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import UserDetailContext from '../../context/UserDetailContext'
 import { useMutation } from 'react-query'
 import { createUser } from '../../utils/api'
+import useFavorites from '../../hooks/useFavorites'
 
 const Layout = () => {
 
     const { isAuthenticated, user, getAccessTokenWithPopup } = useAuth0();
     const { setUserDetails } = useContext(UserDetailContext);
+
+    useFavorites();
 
     const { mutate } = useMutation({
         mutationKey: [user?.email],
@@ -18,7 +21,6 @@ const Layout = () => {
     })
 
     useEffect(() => {
-
         const getTokenAndRegister = async () => {
 
             const res = await getAccessTokenWithPopup({
