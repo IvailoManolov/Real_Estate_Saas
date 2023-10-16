@@ -46,6 +46,13 @@ const Property = () => {
         }
     });
 
+    const isDateInPast = (date) => {
+        const [day, month, year] = date.split('/').map(Number);
+        const today = new Date();
+        const compareDate = new Date(year, month - 1, day);
+        return compareDate < today;
+    };
+
 
     if (isLoading) {
         return (
@@ -148,9 +155,20 @@ const Property = () => {
                                         <Button onClick={() => cancelBooking()} variant='outline' w={'100%'} color='red' disabled={cancelling}>
                                             <span>Cancel booking</span>
                                         </Button>
-                                        <span>
-                                            Your visit already booked for {bookings?.filter((booking) => booking?.id === id)[0].date}
-                                        </span>
+
+                                        {bookings?.filter((booking) => booking?.id === id).map((booking) => (
+                                            isDateInPast(booking.date) ?
+                                                (
+                                                    <span>
+                                                        Missed booking for {booking.date}.
+                                                    </span>
+                                                ) :
+                                                (
+                                                    <span key={booking.id}>
+                                                        Your visit already booked for {booking.date}
+                                                    </span>
+                                                )
+                                        ))}
                                     </>
                                 ) :
                                 (
