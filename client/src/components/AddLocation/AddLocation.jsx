@@ -1,15 +1,18 @@
 import React from 'react';
 import { useForm } from '@mantine/form';
 import { validateString } from '../../utils/common';
-import { Select } from '@mantine/core';
+import { Select, TextInput } from '@mantine/core';
+import useCountries from '../../hooks/useCountries';
 
 const AddLocation = ({ propertyDetails, setPropertyDetails }) => {
+
+    const { getAll } = useCountries();
 
     const form = useForm({
         initialValues: {
             country: propertyDetails?.country,
             city: propertyDetails?.city,
-            address: propertyDetail?.address
+            address: propertyDetails?.address
         },
 
         validate: {
@@ -37,6 +40,23 @@ const AddLocation = ({ propertyDetails, setPropertyDetails }) => {
                         ...form.getInputProps('country', { type: 'input' })
                         }
                     />
+
+                    <TextInput w={'100%'}
+                        withAsterisk
+                        label='City'
+                        {
+                        ...form.getInputProps('city', { type: 'input' })
+                        }
+                    />
+
+                    <TextInput w={'100%'}
+                        withAsterisk
+                        label='Address'
+                        {
+                        ...form.getInputProps('address', { type: 'input' })
+                        }
+                    />
+
                 </div>
             </div>
 
