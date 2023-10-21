@@ -1,10 +1,12 @@
 import React from 'react';
 import { useForm } from '@mantine/form';
 import { validateString } from '../../utils/common';
-import { Select, TextInput } from '@mantine/core';
+import { Button, Group, Select, TextInput } from '@mantine/core';
 import useCountries from '../../hooks/useCountries';
 
-const AddLocation = ({ propertyDetails, setPropertyDetails }) => {
+import Map from '../Map/Map';
+
+const AddLocation = ({ propertyDetails, setPropertyDetails, nextStep }) => {
 
     const { getAll } = useCountries();
 
@@ -24,11 +26,34 @@ const AddLocation = ({ propertyDetails, setPropertyDetails }) => {
 
     const { country, city, address } = form.values;
 
+    const handleSubmit = () => {
+        const { hasErrors, errors } = form.validate();
+
+        if (!hasErrors) {
+            setPropertyDetails((prev) => ({ ...prev, city, address, country }));
+            nextStep();
+        }
+        else {
+            console.error('Failed to move forward! Please check input fields on location');
+        }
+    }
+
     return (
-        <form>
-            {/* Left side */}
-            <div className="flexCenter">
-                <div className="flexColStart">
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit();
+            }}>
+
+            <div className="flexCenter" style={{
+                justifyContent: 'space-between',
+                gap: '3rem',
+                marginTop: '1rem',
+                flexDirection: 'row',
+            }}>
+
+                {/* Left side */}
+                <div className="flexColStart" style={{ flex: 0.5, gap: '1rem' }}>
                     <Select
                         w={'100%'}
                         withAsterisk
@@ -56,12 +81,22 @@ const AddLocation = ({ propertyDetails, setPropertyDetails }) => {
                         ...form.getInputProps('address', { type: 'input' })
                         }
                     />
+                    <Button
+                        fullWidth
+                        type='submit'>Verify Location
+                    </Button>
+                </div>
 
+                {/* Right side */}
+                <div style={{ flex: 1 }}>
+                    <Map
+                        address={address}
+                        city={city}
+                        country={country} />
                 </div>
             </div>
 
-            {/* Right side */}
-        </form>
+        </form >
     )
 }
 
