@@ -4,6 +4,9 @@ import { prisma } from "../config/prismaConfig.js";
 
 //POST CREATE A RESIDENCY
 export const createResidency = asyncHandler(async (req, res) => {
+
+    console.log(req.body.data);
+
     const { title,
         description,
         price,
