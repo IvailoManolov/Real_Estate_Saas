@@ -1,6 +1,7 @@
 import { Box, Button, Center, Group, NumberInput, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React from 'react'
+import { validateString } from '../../utils/common';
 
 const BasicDetails = ({ nextStep, prevStep, propertyDetails, setPropertyDetails }) => {
 
