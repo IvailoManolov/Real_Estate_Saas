@@ -7,8 +7,13 @@ import {
 } from '@tabler/icons-react';
 import { MdAccountBalance } from 'react-icons/md';
 import { BiHeartSquare, BiMoney } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
+import { replace } from 'lodash';
 
 const ProfileMenu = ({ user, logout }) => {
+
+    const navigate = useNavigate();
+
     return (
         <Menu shadow="md" width={300} >
             <Menu.Target>
@@ -31,6 +36,7 @@ const ProfileMenu = ({ user, logout }) => {
                 </Menu.Item>
 
                 <Menu.Item
+                    onClick={() => navigate("./bookings", { replace: true })}
                     leftSection={<IconSearch style={{ width: rem(14), height: rem(14) }} />}
                 >
                     Bookings
