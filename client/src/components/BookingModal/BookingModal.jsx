@@ -56,7 +56,7 @@ const BookingModal = ({ opened, setOpen, email, propertyId }) => {
 
                 <Button
                     onClick={() => mutate()}
-                    disabled={!value}
+                    disabled={!value || isLoading}
                 >
                     Book visit
                 </Button>
