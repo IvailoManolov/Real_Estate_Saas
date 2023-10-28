@@ -31,7 +31,9 @@ const ProfileMenu = ({ user, logout }) => {
                     Notifications
                 </Menu.Item>
 
-                <Menu.Item leftSection={<BiHeartSquare style={{ width: rem(14), height: rem(14) }} />}>
+                <Menu.Item
+                    onClick={() => navigate("./favorites", { replace: true })}
+                    leftSection={<BiHeartSquare style={{ width: rem(14), height: rem(14) }} />}>
                     Favorites
                 </Menu.Item>
 
